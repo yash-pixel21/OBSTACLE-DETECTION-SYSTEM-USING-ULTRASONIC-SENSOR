@@ -59,12 +59,7 @@ Step 7: Save Your Work
  
 
 
-
-
-
- 
-
-
+## Result
 
 
 Result:
