@@ -19,10 +19,10 @@ Tinkercad provides a simulation environment where this circuit can be virtually 
 
 
 ## Circuit Diagram:
-<img width="905" height="703" alt="image" src="https://github.com/user-attachments/assets/caaf862e-5fee-4025-af51-7d6786ce0f54" />
 
- 
-## Procedure: 
+ <img width="1176" height="656" alt="Screenshot 2025-09-19 195437" src="https://github.com/user-attachments/assets/5613750d-a9b9-46fb-ac41-dbc549b0322b" />
+
+## Procedure: //Modify the procedure based on your circuit
 
 Step 1: Set Up the Tinkercad Environment
 1.	Log in to Tinkercad: Open Tinkercad in your web browser and log into your account.
@@ -55,38 +55,58 @@ Step 7: Save Your Work
 
 
 ## Code:
-~~~
-#define echoPin 2   
-#define trigPin 3   
+```
+// C++ code
+//
+int Sonic = 0;
 
-long duration;   
-int distance;    
-
-void setup() {
-  pinMode(trigPin, OUTPUT);  
-  pinMode(echoPin, INPUT);   
-  Serial.begin(9600);        
-}
-
-void loop() {
-  
-  digitalWrite(trigPin, LOW);
+long readUltrasonicDistance(int triggerPin, int echoPin)
+{
+  pinMode(triggerPin, OUTPUT);  // Clear the trigger
+  digitalWrite(triggerPin, LOW);
   delayMicroseconds(2);
-  digitalWrite(trigPin, HIGH);
+  // Sets the trigger pin to HIGH state for 10 microseconds
+  digitalWrite(triggerPin, HIGH);
   delayMicroseconds(10);
-  digitalWrite(trigPin, LOW);
-  duration = pulseIn(echoPin, HIGH);
-
-
-  distance = duration * 0.034 / 2; 
-  Serial.print("Distance: ");
-  Serial.print(distance);
-  Serial.println(" cm");
+  digitalWrite(triggerPin, LOW);
+  pinMode(echoPin, INPUT);
+  // Reads the echo pin, and returns the sound wave travel time in microseconds
+  return pulseIn(echoPin, HIGH);
 }
-~~~
+
+void setup()
+{
+  pinMode(11, OUTPUT);
+  pinMode(9, OUTPUT);
+  pinMode(10, OUTPUT);
+}
+
+void loop()
+{
+  Sonic = 0.01723 * readUltrasonicDistance(5, 6);
+  if (Sonic < 50) {
+    analogWrite(11, 255);
+    analogWrite(9, 0);
+    analogWrite(10, 0);
+  }
+  if (Sonic > 100) {
+    analogWrite(11, 51);
+    analogWrite(9, 204);
+    analogWrite(10, 0);
+  }
+  if (Sonic > 50 && Sonic < 100) {
+    analogWrite(11, 255);
+    analogWrite(9, 102);
+    analogWrite(10, 0);
+  }
+  delay(10); // Delay a little bit to improve simulation performance
+}
+```
 
 ## Output:
-https://github.com/user-attachments/assets/2d3ed52c-8c06-4034-85e7-6ab4b5ba5240
 
-## Result:
+https://github.com/user-attachments/assets/18dc6eef-f659-4b61-a64f-9d7bfcf72b44
+
+## Result
+
 The simulation successfully measured the distance between the ultrasonic sensor  HC-SR04 and the object. The real-time distance values were accurately displayed on the serial monitor in centimeters.
